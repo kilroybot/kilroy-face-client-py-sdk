@@ -3,7 +3,7 @@
 
 [tool.poetry]
 name = "kilroy-face-client-py-sdk"
-version = "0.3.1"
+version = "0.3.2"
 description = "SDK for kilroy face clients in Python 🧰"
 readme = "kilroy_face_client_py_sdk/README.md"
 authors = ["kilroy <kilroymail@pm.me>"]
