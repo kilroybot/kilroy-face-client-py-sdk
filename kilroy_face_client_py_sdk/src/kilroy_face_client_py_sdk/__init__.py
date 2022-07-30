@@ -1,5 +1,5 @@
 from kilroy_face_client_py_sdk.client import FaceClient
-from kilroy_face_client_py_sdk.models import (
+from kilroy_face_py_shared import (
     JSON,
     JSONSchema,
     PostSchema,
