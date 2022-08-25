@@ -304,10 +304,14 @@ class FaceService:
         after: Optional[datetime] = None,
         *args,
         **kwargs,
-    ) -> AsyncIterator[Tuple[UUID, Dict[str, Any]]]:
+    ) -> AsyncIterator[Tuple[UUID, Dict[str, Any], float]]:
         async for response in self._stub.scrap(
             ScrapRequest(limit=limit, before=before, after=after),
             *args,
             **kwargs,
         ):
-            yield response.post.id, json.loads(response.post.content)
+            yield (
+                response.post.id,
+                json.loads(response.post.content),
+                response.post.score,
+            )
