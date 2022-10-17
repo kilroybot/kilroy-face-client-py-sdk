@@ -31,6 +31,8 @@ from kilroy_face_py_shared import (
     WatchConfigResponse,
     WatchStatusRequest,
     WatchStatusResponse,
+    ResetRequest,
+    ResetResponse,
 )
 from kilroy_face_py_shared.metadata import Metadata
 
@@ -226,6 +228,23 @@ class FaceServiceStub(betterproto.ServiceStub):
         ):
             yield response
 
+    async def reset(
+        self,
+        reset_request: "ResetRequest",
+        *,
+        timeout: Optional[float] = None,
+        deadline: Optional["Deadline"] = None,
+        metadata: Optional["MetadataLike"] = None,
+    ) -> "ResetResponse":
+        return await self._unary_unary(
+            "/kilroy.face.v1alpha.FaceService/Reset",
+            reset_request,
+            ResetResponse,
+            timeout=timeout,
+            deadline=deadline,
+            metadata=metadata,
+        )
+
 
 class FaceService:
     def __init__(self, *args, **kwargs) -> None:
@@ -315,3 +334,6 @@ class FaceService:
                 json.loads(response.post.content),
                 response.post.score,
             )
+
+    async def reset(self, *args, **kwargs) -> None:
+        await self._stub.reset(ResetRequest(), *args, **kwargs)
