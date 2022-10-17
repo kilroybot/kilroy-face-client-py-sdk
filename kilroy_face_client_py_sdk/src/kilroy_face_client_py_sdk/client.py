@@ -302,13 +302,15 @@ class FaceService:
         )
         return json.loads(response.config)
 
-    async def post(self, post: Dict[str, Any], *args, **kwargs) -> UUID:
+    async def post(
+        self, post: Dict[str, Any], *args, **kwargs
+    ) -> Tuple[UUID, Optional[str]]:
         response = await self._stub.post(
             PostRequest(post=GeneratedPost(content=json.dumps(post))),
             *args,
             **kwargs,
         )
-        return UUID(response.post_id)
+        return UUID(response.post_id), response.post_url
 
     async def score(self, post_id: UUID, *args, **kwargs) -> float:
         response = await self._stub.score(
