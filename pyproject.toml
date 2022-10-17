@@ -15,7 +15,7 @@ packages = [{ include = "kilroy-face-client-py-sdk", from = "kilroy_face_client_
 
 [tool.poetry.dependencies]
 python = "^3.9"
-kilroy-face-py-shared = "~0.4"
+kilroy-face-py-shared = "~0.5"
 
 # dev
 

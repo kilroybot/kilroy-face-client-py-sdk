@@ -11,7 +11,7 @@ documentation = "https://kilroybot.github.io/kilroy-face-client-py-sdk"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-kilroy-face-py-shared = "~0.4"
+kilroy-face-py-shared = "~0.5"
 
 # dev
 
