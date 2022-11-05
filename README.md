@@ -14,9 +14,9 @@ SDK for kilroy face clients in Python 🧰
 
 This `README` provides info about the development process.
 
-For more info about the package itself
-see `kilroy_face_client_py_sdk/README.md`
-or [docs](https://kilroybot.github.io/kilroy-face-client-py-sdk).
+For more info about the package itself see
+[package `README`](kilroy_face_client_py_sdk/README.md) or
+[docs](https://kilroybot.github.io/kilroy-face-client-py-sdk).
 
 ## Quickstart (on Ubuntu)
 
