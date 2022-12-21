@@ -6,8 +6,8 @@ from uuid import UUID
 import betterproto
 from betterproto.grpc.grpclib_client import MetadataLike
 from grpclib.metadata import Deadline
+
 from kilroy_face_py_shared import (
-    GeneratedPost,
     GetConfigRequest,
     GetConfigResponse,
     GetConfigSchemaRequest,
@@ -33,6 +33,8 @@ from kilroy_face_py_shared import (
     WatchStatusResponse,
     ResetRequest,
     ResetResponse,
+    SaveRequest,
+    SaveResponse,
 )
 from kilroy_face_py_shared.metadata import Metadata
 
@@ -245,6 +247,23 @@ class FaceServiceStub(betterproto.ServiceStub):
             metadata=metadata,
         )
 
+    async def save(
+        self,
+        save_request: "SaveRequest",
+        *,
+        timeout: Optional[float] = None,
+        deadline: Optional["Deadline"] = None,
+        metadata: Optional["MetadataLike"] = None,
+    ) -> "SaveResponse":
+        return await self._unary_unary(
+            "/kilroy.face.v1alpha.FaceService/Save",
+            save_request,
+            SaveResponse,
+            timeout=timeout,
+            deadline=deadline,
+            metadata=metadata,
+        )
+
 
 class FaceService:
     def __init__(self, *args, **kwargs) -> None:
@@ -306,15 +325,15 @@ class FaceService:
         self, post: Dict[str, Any], *args, **kwargs
     ) -> Tuple[UUID, Optional[str]]:
         response = await self._stub.post(
-            PostRequest(post=GeneratedPost(content=json.dumps(post))),
+            PostRequest(content=json.dumps(post)),
             *args,
             **kwargs,
         )
-        return UUID(response.post_id), response.post_url
+        return UUID(response.id), response.url
 
-    async def score(self, post_id: UUID, *args, **kwargs) -> float:
+    async def score(self, id: UUID, *args, **kwargs) -> float:
         response = await self._stub.score(
-            ScoreRequest(post_id=str(post_id)), *args, **kwargs
+            ScoreRequest(id=str(id)), *args, **kwargs
         )
         return response.score
 
@@ -332,10 +351,13 @@ class FaceService:
             **kwargs,
         ):
             yield (
-                response.post.id,
-                json.loads(response.post.content),
-                response.post.score,
+                response.id,
+                json.loads(response.content),
+                response.score,
             )
 
     async def reset(self, *args, **kwargs) -> None:
         await self._stub.reset(ResetRequest(), *args, **kwargs)
+
+    async def save(self, *args, **kwargs) -> None:
+        await self._stub.save(SaveRequest(), *args, **kwargs)
